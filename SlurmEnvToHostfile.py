@@ -9,7 +9,7 @@
 # jobsubmission.sbatch:
 #  ...
 #  python3 SlurmEnvToHostfile.py
-#  mpirun --hostfile hostfile MyMPIExecutable
+#  mpirun -hostfile hostfile MyMPIExecutable
 
 # Eric Tittley 2019-02-33
 
