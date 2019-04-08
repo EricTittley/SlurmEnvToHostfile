@@ -101,7 +101,7 @@ def get_nodeallocation():
 ####### START OF MAIN #######
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
-  parser.add_argument("--hostfile", default="hostfile.txt",
+  parser.add_argument("--hostfile", default="hostfile",
                       help="Name of the hostfile that gets generated.")
   parser.add_argument("--no-file", action="store_true", default=False, 
                       help="Write the node specification to stdout for the mpirun --host option.")
