@@ -20,4 +20,4 @@ The script needs more extensive testing and would benefit from:
 This code is maintained by Eric Tittley.
 
 Based on [Christopher Hoffman's code](https://github.com/pftool/pftool/blob/master/scripts/pfscripts.py)
-but extended to parse `SLURM_JOB_CPUS_PER_NODE correctly`, not just as a single integer.
+but extended to parse `SLURM_JOB_CPUS_PER_NODE` correctly, not just as a single integer.
