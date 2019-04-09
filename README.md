@@ -19,7 +19,7 @@ SlurmEnvToHostfile
 mpirun --hostfile hostfile MyMPI.exe
 ```
 
-If arguments are passed to ```SlurmEnvToHostfile.py```
+If arguments are passed to `SlurmEnvToHostfile.py`
 ```
 python3 SlurmEnvToHostfile.py [OPTIONS]
 mpirun --hostfile hostfile MyMPI.exe
