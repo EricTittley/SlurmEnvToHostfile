@@ -105,6 +105,8 @@ if __name__ == "__main__":
                       help="Name of the hostfile that gets generated.")
   parser.add_argument("--no-file", action="store_true", default=False, 
                       help="Write the node specification to stdout for the mpirun --host option.")
+  parser.add_argument("--style", default="openmpi", 
+                      help="Specify the style of hostfile (aka machinefile). [openmpi(default)|mpich]")
   args = parser.parse_args()
 
   # Parse the environment
@@ -114,7 +116,13 @@ if __name__ == "__main__":
     # Write the hostfile
     with open(args.hostfile, "w") as f:
       for i in range(0,len(nodelist)):
-        f.writelines([nodelist[i],' slots=',str(numprocs[i]),'\n'])
+        if args.style=="openmpi":
+          f.writelines([nodelist[i],' slots=',str(numprocs[i]),'\n'])
+        elif args.style=="mpich":
+          f.writelines([nodelist[i],':',str(numprocs[i]),'\n'])
+        else:
+          sys.exit("ERROR: invalid --style argument "+args.style)
+        
   else:
     # Write specification to stdout to be used with the mpirun --host option
     cmd = []

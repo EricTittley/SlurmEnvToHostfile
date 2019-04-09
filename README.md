@@ -18,6 +18,10 @@ The name of the generated hostfile can be specified with the `--hostfile` option
 mpirun --host `SlurmEnvToHostfile --no-file` MyMPI.exe
 ```
 
+The style of the hostfile can be set with the `--style` argument. Valid forms are
+ * `--style=openmpi` OpenMPI-compliant [default]
+ * `--style=mpich`   MPICH-compliant
+
 The script needs more extensive testing and would benefit from:
 * being able to produce an MPICH-compliant hostfile.
 
@@ -25,5 +29,8 @@ The script needs more extensive testing and would benefit from:
 
 This code is maintained by Eric Tittley.
 
-Based on [Christopher Hoffman's code](https://github.com/pftool/pftool/blob/master/scripts/pfscripts.py)
+Contributors:
+ Tilman Troester
+
+Originally based on [Christopher Hoffman's code](https://github.com/pftool/pftool/blob/master/scripts/pfscripts.py)
 but extended to parse `SLURM_JOB_CPUS_PER_NODE` correctly, not just as a single integer.
