@@ -9,21 +9,31 @@
 # jobsubmission.sbatch:
 #  ...
 #  python3 SlurmEnvToHostfile.py
-#  mpirun -hostfile hostfile MyMPIExecutable
-
-# Eric Tittley 2019-02-33
+#  mpirun --hostfile hostfile MyMPIExecutable
+#
+#
+# ALTERNATIVE USAGE
+# 
+#jobsubmission.sbatch:
+#  ...
+#  mpirun --host `python3 SlurmEnvToHostfile.py` MyMPIExecutable
+#
+#
+# Tilman Troester 2019-04-08
+# Eric Tittley    2019-02-33
 
 import os
 import sys
 import re
 import parse
+import argparse
 
 def get_nodeallocation():
   """
   This function reads the SLURM environment to see if any variables
   are set that give an indication of what nodes/processes are
   currently allocated for the code running. The 2-tuple (nodelist,numprocs)
-  is returned. If no allocation is set, then ([],0) is
+  is returned. If no allocation is set, then ([],[]) is
   returned
   This function parses SLURM_JOB_NODELIST values such as:
     worker[005,007,009-012,036-055,060]
@@ -83,18 +93,34 @@ def get_nodeallocation():
      
   except KeyError:
     nodelist = []
-    numprocs = 0
+    numprocs = []
 
   return(nodelist,numprocs)
 
 
 ####### START OF MAIN #######
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser()
+  parser.add_argument("--hostfile", default="hostfile",
+                      help="Name of the hostfile that gets generated.")
+  parser.add_argument("--no-file", action="store_true", default=False, 
+                      help="Write the node specification to stdout for the mpirun --host option.")
+  args = parser.parse_args()
 
-# Parse the environment
-nodelist,numprocs=get_nodeallocation()
+  # Parse the environment
+  nodelist,numprocs=get_nodeallocation()
 
-# Write the hostfile
-f=open("hostfile","w")
-for i in range(0,len(nodelist)):
-    f.writelines([nodelist[i],' slots=',str(numprocs[i]),'\n'])
-f.close()
+  if not args.no_file:
+    # Write the hostfile
+    with open(args.hostfile, "w") as f:
+      for i in range(0,len(nodelist)):
+        f.writelines([nodelist[i],' slots=',str(numprocs[i]),'\n'])
+  else:
+    # Write specification to stdout to be used with the mpirun --host option
+    cmd = []
+    for node, slots in zip(nodelist, numprocs):
+      cmd += [node for i in range(slots)]
+    cmd_string = ",".join(cmd)
+    print(cmd_string, end="", flush=True)
+
+    
