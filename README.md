@@ -22,8 +22,7 @@ The style of the hostfile can be set with the `--style` argument. Valid forms ar
  * `--style=openmpi` OpenMPI-compliant [default]
  * `--style=mpich`   MPICH-compliant
 
-The script needs more extensive testing and would benefit from:
-* being able to produce an MPICH-compliant hostfile.
+The script needs more extensive testing. Please report issues.
 
 ## Contributors
 
